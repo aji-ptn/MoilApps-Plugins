@@ -21,8 +21,26 @@
    make sure you has install python3 then follow the step bellow.
 
    - clone this repository
+
+   - change directory to the repository folder
+
+     ```
+     $ cd MoilApps-Plugins
+     ```
+
    - install the requirements
-   - run the main_apps.py
+
+     ```
+     $ pip install -r requirement.txt
+     ```
+
+   - run the main_apps.py in folder "src"
+
+     ```
+     $ python src/main_apps.py
+     ```
+
+     
 
    The result will show like picture bellow this.
 
@@ -30,5 +48,5 @@
 
    The example application is stored in folder "list_application", you can add, open, and delete.
 
-3. For more documentation, coming soon....
+3. For more documentation, **coming soon....**
 
