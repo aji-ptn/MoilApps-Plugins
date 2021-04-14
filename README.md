@@ -28,7 +28,7 @@
 
    ![](./assets/louncher.png)
 
-   The example application in in folder "list_application", you can add, open, and delete.
+   The example application is stored in folder "list_application", you can add, open, and delete.
 
 3. For more documentation, coming soon....
 
