@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -35,8 +36,8 @@ class Ui_MainWindow(object):
         font.setPointSize(35)
         self.label.setFont(font)
         self.label.setStyleSheet("border-color: rgb(66, 69, 183);\n"
-"background-color: #71D1BA;\n"
-"border-radius: 10px;")
+                                 "background-color: #71D1BA;\n"
+                                 "border-radius: 10px;")
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
@@ -77,17 +78,17 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem5)
-        self.install_mor_application = QtWidgets.QPushButton(self.centralwidget)
-        self.install_mor_application.setMinimumSize(QtCore.QSize(80, 50))
+        self.add_apps = QtWidgets.QPushButton(self.centralwidget)
+        self.add_apps.setMinimumSize(QtCore.QSize(80, 50))
         font = QtGui.QFont()
         font.setPointSize(14)
-        self.install_mor_application.setFont(font)
-        self.install_mor_application.setStyleSheet("QPushButton{ background-color :  #71D1BA;}\n"
-"QPushButton::pressed{ background-color : #71AED1; }\n"
-"QPushButton{border-style:\"solid\";}\n"
-"QPushButton{border-radius:\"15\";}")
-        self.install_mor_application.setObjectName("install_mor_application")
-        self.horizontalLayout_2.addWidget(self.install_mor_application)
+        self.add_apps.setFont(font)
+        self.add_apps.setStyleSheet("QPushButton{ background-color :  #71D1BA;}\n"
+                                    "QPushButton::pressed{ background-color : #71AED1; }\n"
+                                    "QPushButton{border-style:\"solid\";}\n"
+                                    "QPushButton{border-radius:\"15\";}")
+        self.add_apps.setObjectName("add_apps")
+        self.horizontalLayout_2.addWidget(self.add_apps)
         self.Open_btn = QtWidgets.QPushButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -96,9 +97,9 @@ class Ui_MainWindow(object):
         self.Open_btn.setSizePolicy(sizePolicy)
         self.Open_btn.setMinimumSize(QtCore.QSize(80, 50))
         self.Open_btn.setStyleSheet("QPushButton{ background-color :  #71D1BA;}\n"
-"QPushButton::pressed{ background-color : #71AED1; }\n"
-"QPushButton{border-style:\"solid\";}\n"
-"QPushButton{border-radius:\"10\";}")
+                                    "QPushButton::pressed{ background-color : #71AED1; }\n"
+                                    "QPushButton{border-style:\"solid\";}\n"
+                                    "QPushButton{border-radius:\"10\";}")
         self.Open_btn.setObjectName("Open_btn")
         self.horizontalLayout_2.addWidget(self.Open_btn)
         self.Delete_btn = QtWidgets.QPushButton(self.centralwidget)
@@ -109,9 +110,9 @@ class Ui_MainWindow(object):
         self.Delete_btn.setSizePolicy(sizePolicy)
         self.Delete_btn.setMinimumSize(QtCore.QSize(80, 50))
         self.Delete_btn.setStyleSheet("QPushButton{ background-color :  #71D1BA;}\n"
-"QPushButton::pressed{ background-color : #71AED1; }\n"
-"QPushButton{border-style:\"solid\";}\n"
-"QPushButton{border-radius:\"10\";}")
+                                      "QPushButton::pressed{ background-color : #71AED1; }\n"
+                                      "QPushButton{border-style:\"solid\";}\n"
+                                      "QPushButton{border-radius:\"10\";}")
         self.Delete_btn.setObjectName("Delete_btn")
         self.horizontalLayout_2.addWidget(self.Delete_btn)
         self.btn_Exit = QtWidgets.QPushButton(self.centralwidget)
@@ -125,9 +126,9 @@ class Ui_MainWindow(object):
         font.setPointSize(14)
         self.btn_Exit.setFont(font)
         self.btn_Exit.setStyleSheet("QPushButton{ background-color :  #71D1BA;}\n"
-"QPushButton::pressed{ background-color : #DE1212; }\n"
-"QPushButton{border-style:\"solid\";}\n"
-"QPushButton{border-radius:\"15\";}")
+                                    "QPushButton::pressed{ background-color : #DE1212; }\n"
+                                    "QPushButton{border-style:\"solid\";}\n"
+                                    "QPushButton{border-radius:\"15\";}")
         self.btn_Exit.setObjectName("btn_Exit")
         self.horizontalLayout_2.addWidget(self.btn_Exit)
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -136,9 +137,9 @@ class Ui_MainWindow(object):
         self.pushButton.setMinimumSize(QtCore.QSize(50, 50))
         self.pushButton.setMaximumSize(QtCore.QSize(40, 16777215))
         self.pushButton.setStyleSheet("QPushButton{ background-color :  #71D1BA;}\n"
-"QPushButton::pressed{ background-color : #71AED1; }\n"
-"QPushButton{border-style:\"solid\";}\n"
-"QPushButton{border-radius:\"25\";}")
+                                      "QPushButton::pressed{ background-color : #71AED1; }\n"
+                                      "QPushButton{border-style:\"solid\";}\n"
+                                      "QPushButton{border-radius:\"25\";}")
         self.pushButton.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("images/icons_help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -163,7 +164,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Welcome to Moil Software"))
         self.label_3.setText(_translate("MainWindow", "   Select application here:"))
-        self.install_mor_application.setText(_translate("MainWindow", "Add"))
+        self.add_apps.setText(_translate("MainWindow", "Add"))
         self.Open_btn.setText(_translate("MainWindow", "Open"))
         self.Delete_btn.setText(_translate("MainWindow", "Delete"))
         self.btn_Exit.setText(_translate("MainWindow", "Exit"))
@@ -171,10 +172,10 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
