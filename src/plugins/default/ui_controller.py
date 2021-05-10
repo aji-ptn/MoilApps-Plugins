@@ -1,9 +1,9 @@
 import datetime
 import cv2
 from Moildev import Moildev
+from Moildev import read_image, select_file
 from .ui_windows.Ui_Mainwindow import *
 from .contoller.select_cam import OpenCameras
-from .contoller.utils import read_image, select_file
 from .contoller.videocontroller import VideoController
 from .contoller.showResult import ShowImageResult
 from .contoller.control_window import ViewWindow

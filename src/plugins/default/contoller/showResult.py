@@ -1,7 +1,7 @@
 import cv2
 from PyQt5 import QtGui, QtCore
 from .resize_image import ResizeImage
-from utils import Rotate
+from Moildev import rotate
 
 
 class ShowImageResult(object):
@@ -73,7 +73,7 @@ class ShowImageResult(object):
         else:
             self.resultImage = cv2.remap(
                 image, self.parent.mapX, self.parent.mapY, cv2.INTER_CUBIC)
-        self.resultImage = Rotate(self.resultImage, angle)
+        self.resultImage = rotate(self.resultImage, angle)
         self.label_result(self.resultImage, self.parent.width_img)
         self.parent.resultImage = self.resultImage
 

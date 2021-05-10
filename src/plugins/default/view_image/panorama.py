@@ -1,4 +1,4 @@
-from utils import drawPoint
+from Moildev import draw_point
 from ..contoller.showResult import ShowImageResult
 
 
@@ -190,7 +190,7 @@ class Panorama(object):
         """
         image = self.parent.image.copy()
         if self.parent.coor:
-            oriImage = drawPoint(image, self.parent.w, self.parent.coor)
+            oriImage = draw_point(image, self.parent.w, self.parent.coor)
         else:
-            oriImage = drawPoint(image, self.parent.h, self.parent.center)
+            oriImage = draw_point(image, self.parent.h, self.parent.center)
         self.show.showOriginalImage(oriImage)

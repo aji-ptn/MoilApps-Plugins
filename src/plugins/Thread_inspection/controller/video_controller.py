@@ -4,7 +4,7 @@ import cv2
 import os
 
 
-class Video_Controller(object):
+class VideoController(object):
     def __init__(self, MainWindow):
         """
         This is the video controller methode that has function to control the video player button
@@ -40,6 +40,10 @@ class Video_Controller(object):
 
         """
         self.parent.ui.btn_play_pouse.setDisabled(True)
+        self.parent.ui.btn_prev_video.setDisabled(True)
+        self.parent.ui.btn_stop_video.setDisabled(True)
+        self.parent.ui.btn_skip_video.setDisabled(True)
+        self.parent.ui.slider_Video.setDisabled(True)
 
     def set_button_enable(self):
         """
@@ -49,6 +53,10 @@ class Video_Controller(object):
 
         """
         self.parent.ui.btn_play_pouse.setEnabled(True)
+        self.parent.ui.btn_prev_video.setEnabled(True)
+        self.parent.ui.btn_stop_video.setEnabled(True)
+        self.parent.ui.btn_skip_video.setEnabled(True)
+        self.parent.ui.slider_Video.setEnabled(True)
 
     def control_camera_mode(self):
         """

@@ -1,4 +1,4 @@
-from utils import drawPoint, drawPolygon
+from Moildev import draw_point, draw_polygon
 from ..contoller.showResult import ShowImageResult
 
 
@@ -133,11 +133,11 @@ class AnyPoint(object):
             None.
         """
         image = self.parent.image.copy()
-        image = drawPolygon(image, self.parent.mapX, self.parent.mapY)
+        image = draw_polygon(image, self.parent.mapX, self.parent.mapY)
         if self.parent.coordinate_point is None:
             self.show.showOriginalImage(image)
         else:
-            image = drawPoint(
+            image = draw_point(
                 image,
                 self.parent.h,
                 self.parent.coordinate_point)

@@ -4,7 +4,7 @@
 # email: M07158031@o365.mcut.edu.twsour
 #######################################################
 import plugin
-from .main_controller import *
+from .ui_controller import *
 
 
 class Internal_Thread_Inspection(plugin.Plugin):

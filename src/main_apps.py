@@ -1,7 +1,7 @@
 import os
 import shutil
 from PyQt5 import QtGui, QtWidgets
-from app_moildev_UI import Ui_MainWindow
+from Ui_app_moildev import Ui_MainWindow
 from application import Application
 
 
@@ -44,6 +44,13 @@ def open_help():
         "\n\nMore reference about Moildev, contact us\n\n")
     msgbox.setIconPixmap(QtGui.QPixmap('./images/moildev.png'))
     msgbox.exec()
+
+
+def get_password():
+    paswd, ok = QtWidgets.QInputDialog.getText(None, "Authentication", "Sudo Password?",
+                                               QtWidgets.QLineEdit.Password)
+    if ok and paswd != '':
+        return paswd
 
 
 class ControllerMainApps(QtWidgets.QMainWindow):
@@ -129,6 +136,9 @@ class ControllerMainApps(QtWidgets.QMainWindow):
         dir_plugin = QtWidgets.QFileDialog.getExistingDirectory(
             self, 'Select Application Folder')
         if dir_plugin:
+            paswd = get_password()
+            print(paswd)
+            # os.system("echo " + paswd + "| sudo -S chown $USER /opt/Moildev/plugins/")
             original = dir_plugin
             target = 'plugins/'
             dir_copy(original, target)

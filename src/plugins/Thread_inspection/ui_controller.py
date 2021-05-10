@@ -1,12 +1,14 @@
 import cv2
 from Moildev import Moildev
-from utils import select_file, read_image
+from Moildev import select_file, read_image
 
 from .ui_windows.Ui_MainWindow import *
-from .view_image.show_result import Show_Image
-from .view_image.anypoint import Anypoint_View
-from .controller.video_controller import Video_Controller
+from .view_image.anypoint import AnypointView
+from .view_image.panorama import PanoramaView
+from .controller.video_controller import VideoController
 from .controller.open_camera import OpenCameraController
+from .controller.help import open_help_moildev
+from .controller.show_result import ShowImage
 
 
 class Controller(QtWidgets.QMainWindow):
@@ -23,16 +25,33 @@ class Controller(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.parent = main_application
         self.image = None
+        self.cap = None
+        self.cam = False
+        self.normal_mode = True
+        # self.anypoint_mode = False
+        # self.panorama_mode = False
+        self.result_image = None
+        self.alpha = 0
+        self.beta = 0
+        self.zoom_any = 4
+        self.anypoint_mode = 1
         self.width_original_image = 300
         self.width_result_image = 1200
+        self.angle = 0
         self.connect_event()
 
         self.openCam = QtWidgets.QDialog()
         self.winOpenCam = OpenCameraController(self, self.openCam)
 
-        self.show_image = Show_Image(self)
-        self.video_controller = Video_Controller(self)
-        self.anypoint = Anypoint_View(self)
+        self.show_image = ShowImage(self)
+        self.video_controller = VideoController(self)
+        self.anypoint = AnypointView(self)
+        self.panorama = PanoramaView(self)
+
+        self.video_controller.set_button_disable()
+        self.ui.frame_panorama.hide()
+        self.ui.frame_anypoint.hide()
+        self.ui.frame_navigator.hide()
 
     def connect_event(self):
         """Connect every event on user interface like button event, mouse event
@@ -46,6 +65,12 @@ class Controller(QtWidgets.QMainWindow):
         self.ui.actionExit.triggered.connect(self.onclick_exit)
         self.ui.btn_show_help.clicked.connect(self.help)
         self.ui.label_Result_Image.wheelEvent = self.mouse_wheelEvent
+        self.ui.pushButton_29.clicked.connect(open_help_moildev)
+        self.ui.btn_Rotate_Left.clicked.connect(self.rotate_left)
+        self.ui.btn_Rotate_Right.clicked.connect(self.rotate_right)
+        self.ui.btn_Zoom_in.clicked.connect(self.zoom_in)
+        self.ui.btn_Zoom_out.clicked.connect(self.zoom_out)
+        self.ui.btn_normal.clicked.connect(self.show_normal)
 
     def onclick_open_image(self):
         """Open Dialog to search the file image on local directory.
@@ -60,10 +85,7 @@ class Controller(QtWidgets.QMainWindow):
             if param_name:
                 self.moildev = Moildev(param_name)
                 self.image = read_image(filename)
-                self.show_image.show_result_image(
-                    self.image, self.width_result_image)
-                self.show_image.show_original_image(
-                    self.image, self.width_original_image)
+                self.show_to_window()
 
     def onclick_load_video(self):
         """Open Dialog to search video file on local Directory.
@@ -86,22 +108,24 @@ class Controller(QtWidgets.QMainWindow):
         """
         camera_source = self.winOpenCam.camera_source_used()
         self.running_video(camera_source)
+        self.cam = True
 
     def running_video(self, video_source):
         """Open Video following the source given.
         """
+        self.video_controller.set_button_enable()
         self.cap = cv2.VideoCapture(video_source)
         self.next_frame_slot()
 
     def next_frame_slot(self):
         """Control video frame.
         """
-        _, image = self.cap.read()
-        if image is None:
+        _, self.image = self.cap.read()
+        if self.image is None:
             QtWidgets.QMessageBox.information(
                 self, "Information", "No source camera founded")
         else:
-            self.h, self.w = image.shape[:2]
+            self.h, self.w = self.image.shape[:2]
             self.fps = self.cap.get(cv2.CAP_PROP_FPS)
             self.pos_frame = self.cap.get(cv2.CAP_PROP_POS_FRAMES)
             self.pos_msec = self.cap.get(cv2.CAP_PROP_POS_MSEC)
@@ -114,9 +138,7 @@ class Controller(QtWidgets.QMainWindow):
             self.minute = int(sec_pos // 60)
             sec_pos %= 60
             self.sec = sec_pos
-            self.show_image.show_result_image(image, self.width_result_image)
-            self.show_image.show_original_image(
-                image, self.width_original_image)
+            self.show_to_window()
 
     def mouse_wheelEvent(self, e):
         """Resize image using mouse wheel event.
@@ -138,14 +160,59 @@ class Controller(QtWidgets.QMainWindow):
                         pass
                     else:
                         self.width_result_image += 100
-                self.show_image.show_result_image(
-                    self.image, self.width_result_image)
+                self.show_to_window()
+
+    def zoom_in(self):
+        if self.width_result_image == 4000:
+            pass
+        else:
+            self.width_result_image += 100
+        self.show_to_window()
+
+    def zoom_out(self):
+        if self.width_result_image == 1000:
+            pass
+        else:
+            self.width_result_image -= 100
+        self.show_to_window()
 
     def rotate_left(self):
-        pass
+        if self.angle == 180:
+            pass
+        else:
+            self.angle += 10
+        self.show_to_window()
 
     def rotate_right(self):
-        pass
+        if self.angle == 180:
+            pass
+        else:
+            self.angle -= 10
+        self.show_to_window()
+
+    def show_normal(self):
+        self.show_image.show_result_image(
+            self.image, self.width_result_image, self.angle)
+        self.normal_mode = True
+        self.ui.frame_anypoint.hide()
+        self.ui.frame_navigator.hide()
+        self.ui.frame_panorama.hide()
+
+    def show_to_window(self):
+        """
+        show image frame to windows user interface.
+        Returns:
+
+        """
+        self.show_image.show_original_image(
+            self.image, self.width_original_image)
+        if self.normal_mode:
+            self.show_image.show_result_image(
+                self.image, self.width_result_image, self.angle)
+
+        else:
+            self.show_image.show_result_image(
+                self.result_image, self.width_result_image, self.angle)
 
     def go_to_home_application(self):
         """This function is for close the main window and show the home application
@@ -172,12 +239,11 @@ class Controller(QtWidgets.QMainWindow):
             "view is an image that has been undistorted in a certain"
             "area according to the input coordinates."
             "\n\nMore reference about Moildev, contact us\n\n")
-        msgbox.setIconPixmap(QtGui.QPixmap('./assets/128.png'))
+        msgbox.setIconPixmap(QtGui.QPixmap('images/moildev.png'))
         msgbox.exec()
 
     def onclick_exit(self):
         self.close()
-        # self.parent.close()
         self.openCam.close()
 
     def closeEvent(self, event):
