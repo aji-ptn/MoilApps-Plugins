@@ -2,89 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="90b0fd34-6a50-43b1-9b93-3839e8424a18" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/controller/help.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/view_image/panorama.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/3d_measurment/for_3d.ui" beforeDir="false" afterPath="$PROJECT_DIR$/example_application/3d_measurment/for_3d.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/.idea/Thread_inspection.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/Model/Moutils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/Model/SourceMedia.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/Model/anypoint_view.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/Model/moildev_config.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/Model/utils_function.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/Model/video_controller.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/Moildevs.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/View/Ui_MainWindow.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/View/Ui_Select_Camera.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/View/show_image.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/controller.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/360-view-96.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/48.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/C.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/Quit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/any.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/cam_live.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/camera.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/down.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/home.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/icons8-stop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/icons8-video-call-96.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/icons_help.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/info.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/information.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/kkip.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/left.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/moildev.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/open_image_out.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/pano.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/panorama-96.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/pause.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/play.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/prev.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/rec.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/rec_stop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/record.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/right.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/rotate-left.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/rotate-right.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/shutdown.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/stop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/up.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/video-record.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/video.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/zoom-in.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/images/zoom-out.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/open_camera.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/Thread_inspection/test_run.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/face_recognition/controller/controller.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/face_recognition/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/face_recognition/view/Ui_Mainwindow.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/face_recognition/view/test.ui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/surveillance/controller/controller.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/surveillance/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/surveillance/view/surveillance_window.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_application/surveillance/view/test.ui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MoilCV.cpython-36m-x86_64-linux-gnu.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Moildev.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Moildev.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app_moildev_UI.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main_apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/Thread_inspection/controller/video_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/controller/video_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/Thread_inspection/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/Thread_inspection/main_controller.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/10052021.ui" beforeDir="false" afterPath="$PROJECT_DIR$/src/10052021.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/aD_10052021.ui" beforeDir="false" afterPath="$PROJECT_DIR$/src/aD_10052021.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plugins/Thread_inspection/ui_windows/Ui_MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/ui_windows/Ui_MainWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/Thread_inspection/view_image/anypoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/view_image/anypoint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/Thread_inspection/view_image/show_result.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/default/contoller/showResult.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/default/contoller/showResult.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/default/contoller/utils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/default/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/default/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/default/main_controller.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/default/view_image/anypoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/default/view_image/anypoint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugins/default/view_image/panorama.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/default/view_image/panorama.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
+    <width>1723</width>
     <height>917</height>
    </rect>
   </property>
@@ -1028,6 +1028,72 @@ border-radius: 10px;</string>
          </widget>
         </item>
         <item>
+         <widget class="QFrame" name="frame_ctrl_axis">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>65</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #71D1BA;   
+border-radius: 10px;</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QPushButton" name="btn_ctrl_axis">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>5</y>
+             <width>45</width>
+             <height>40</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>45</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{ background-color :  rgb(211, 215, 207);}
+QPushButton::pressed{ background-color : #71AED1; }
+border-radius: 10px;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>images/axis.png</normaloff>images/axis.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>35</height>
+            </size>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item>
          <widget class="QLabel" name="label_Application">
           <property name="font">
            <font>
@@ -1159,7 +1225,7 @@ border-radius: 10px;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>1450</width>
+           <width>1253</width>
            <height>711</height>
           </rect>
          </property>
@@ -1680,11 +1746,39 @@ border-radius: 10px;</string>
            <x>0</x>
            <y>0</y>
            <width>338</width>
-           <height>546</height>
+           <height>340</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5"/>
         </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_axis">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
        </widget>
       </item>
       <item>
@@ -1749,7 +1843,7 @@ border-radius: 10px;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1920</width>
+     <width>1723</width>
      <height>34</height>
     </rect>
    </property>
