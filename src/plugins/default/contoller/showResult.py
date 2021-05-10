@@ -1,7 +1,7 @@
 import cv2
 from PyQt5 import QtGui, QtCore
-from .ratio import SetRatioImage
-from .utils import Rotate
+from .resize_image import ResizeImage
+from utils import Rotate
 
 
 class ShowImageResult(object):
@@ -13,7 +13,7 @@ class ShowImageResult(object):
             MainWindow ():
         """
         self.parent = MainWindow
-        self.ratio = SetRatioImage(self.parent)
+        self.ratio = ResizeImage(self.parent)
 
     def showInRecenterLabel(self, image):
         """

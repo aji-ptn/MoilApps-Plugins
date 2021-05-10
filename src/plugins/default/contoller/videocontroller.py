@@ -10,7 +10,7 @@ class VideoController(object):
         The class to control the video. this class also inheritance from mainwindow class.
 
         Args:
-            Mainwindow ():
+            Mainwindow (): Is the parent class to access the user interface widget in this application.
         """
         self.parent = Mainwindow
         self.play = False

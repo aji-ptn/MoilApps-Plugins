@@ -1,7 +1,5 @@
-from ..contoller.utils import drawPoint, drawPolygon
+from utils import drawPoint, drawPolygon
 from ..contoller.showResult import ShowImageResult
-import numpy as np
-import cv2
 
 
 class AnyPoint(object):
@@ -10,7 +8,7 @@ class AnyPoint(object):
         Anypoint class to process image on anypoint view.
 
         Args:
-            MainWindow ():
+            MainWindow (): Is the parent class to access the user interface widget in this application.
         """
         self.parent = MainWindow
         self.show = ShowImageResult(self.parent)
@@ -35,6 +33,31 @@ class AnyPoint(object):
         self.parent.ui.brn_down.clicked.connect(self.down)
         self.parent.ui.radioAnypointM1.setChecked(True)
 
+    def control_button_on_anypoint(self):
+        """
+        Control button on anypoint where it will be hide and show the button.
+
+        Returns:
+            None.
+        """
+        self.parent.ui.btn_Panorama.setChecked(False)
+        self.parent.ui.frame_4.show()
+        self.parent.ui.frame_5.hide()
+        self.parent.ui.frame_4.setDisabled(False)
+        self.parent.ui.frame_5.setDisabled(True)
+
+    def control_button_off_anypoint(self):
+        """
+        Control button off anypoint where it will be hide and show the button.
+
+        Returns:
+            None.
+        """
+        self.parent.ui.frame_4.setDisabled(True)
+        self.parent.ui.frame_5.setDisabled(True)
+        self.parent.ui.frame_4.hide()
+        self.parent.ui.frame_5.hide()
+
     def zoomValue(self):
         """
         The methode to change the zoom value when doing anypoint view.
@@ -47,10 +70,10 @@ class AnyPoint(object):
 
     def resetAlphaBeta(self):
         """
-        The method for reset alpa, beta, zoom, and angle.
+        The method for reset alpha, beta, zoom, and angle.
 
         Returns:
-
+            None.
         """
         self.parent.alpha = 0
         self.parent.beta = 0
@@ -66,6 +89,7 @@ class AnyPoint(object):
         The method for click button anypoint.
 
         Returns:
+            None.
 
         """
         self.parent.ui.checkBox_ShowRecenterImage.setChecked(False)
@@ -77,44 +101,36 @@ class AnyPoint(object):
 
     def anypoint_view(self):
         """
-        The method to clearly process image on anypoint view.
+        The method to process image on anypoint view.
 
         Returns:
-
+            None.
         """
         if self.parent.image is None:
             pass
         else:
             image = self.parent.image.copy()
             if self.parent.ui.btn_Anypoint.isChecked():
-                self.parent.ui.btn_Panorama.setChecked(False)
-                self.parent.ui.frame_4.show()
-                self.parent.ui.frame_5.hide()
-                self.parent.ui.frame_4.setDisabled(False)
-                self.parent.ui.frame_5.setDisabled(True)
-                self.alpha = self.parent.alpha
-                self.beta = self.parent.beta
-                self.zoom = self.parent.zoom
+                self.control_button_on_anypoint()
                 self.parent.mapX, self.parent.mapY = self.parent.moildev.getAnypointMaps(
-                    self.alpha, self.beta, self.zoom, self.parent.anypointState)
-
+                    self.parent.alpha,
+                    self.parent.beta,
+                    self.parent.zoom,
+                    self.parent.anypointState)
                 self.show.view_result(self.parent.image)
                 self.updateParamAnypoint()
 
             else:
-                self.parent.ui.frame_4.setDisabled(True)
-                self.parent.ui.frame_5.setDisabled(True)
-                self.parent.ui.frame_4.hide()
-                self.parent.ui.frame_5.hide()
+                self.control_button_off_anypoint()
                 self.show.showOriginalImage(image)
                 self.show.view_result(image)
 
     def showPolygon(self):
         """
-        Showing the polygon on original image.
+        Draw the polygon on original image on original window label.
 
         Returns:
-
+            None.
         """
         image = self.parent.image.copy()
         image = drawPolygon(image, self.parent.mapX, self.parent.mapY)
@@ -129,21 +145,21 @@ class AnyPoint(object):
 
     def updateParamAnypoint(self):
         """
-        The method for update anypoint on the beta, alpha and zoom.
+        The method for update parameter beta, alpha and zoom on the user interface.
 
         Returns:
-
+            None.
         """
-        self.parent.ui.lineEdit_beta.setText("%.2f" % self.beta)
-        self.parent.ui.lineEdit_alpha.setText("%.2f" % self.alpha)
-        self.parent.ui.spinBox_zoom.setValue(self.zoom)
+        self.parent.ui.lineEdit_beta.setText("%.2f" % self.parent.beta)
+        self.parent.ui.lineEdit_alpha.setText("%.2f" % self.parent.alpha)
+        self.parent.ui.spinBox_zoom.setValue(self.parent.zoom)
 
     def anypoint_mode_1(self):
         """
-        Determine the anypoint mode 1.
+        Execute the anypoint process mode 1.
 
         Returns:
-
+            None.
         """
         self.parent.anypointState = 1
         self.resetAlphaBeta()
@@ -151,10 +167,10 @@ class AnyPoint(object):
 
     def anypoint_mode_2(self):
         """
-        Determine the anypoint mode 2.
+        Execute the anypoint process mode 2.
 
         Returns:
-
+            None.
         """
         self.parent.anypointState = 2
         self.resetAlphaBeta()
@@ -165,7 +181,7 @@ class AnyPoint(object):
         The method for event on click button set anypoint when has modify the parameter.
 
         Returns:
-
+            None.
         """
         self.parent.alpha = float(self.parent.ui.lineEdit_alpha.text())
         self.parent.beta = float(self.parent.ui.lineEdit_beta.text())
@@ -175,9 +191,6 @@ class AnyPoint(object):
     def up(self):
         """
         The method showing anypoint view in specific area.
-
-        Returns:
-
         """
         self.parent.coordinate_point = None
         if self.parent.ui.radioAnypointM1.isChecked():
@@ -191,9 +204,6 @@ class AnyPoint(object):
     def left(self):
         """
         The method showing anypoint view in specific area.
-
-        Returns:
-
         """
         self.parent.coordinate_point = None
         if self.parent.ui.radioAnypointM1.isChecked():
@@ -207,9 +217,6 @@ class AnyPoint(object):
     def center(self):
         """
         The method showing anypoint view in specific area.
-
-        Returns:
-
         """
         self.parent.coordinate_point = None
         if self.parent.ui.radioAnypointM1.isChecked():
@@ -223,9 +230,6 @@ class AnyPoint(object):
     def right(self):
         """
         The method showing anypoint view in specific area.
-
-        Returns:
-
         """
         self.parent.coordinate_point = None
         if self.parent.ui.radioAnypointM1.isChecked():
@@ -239,9 +243,6 @@ class AnyPoint(object):
     def down(self):
         """
         The method showing anypoint view in specific area.
-
-        Returns:
-
         """
         self.parent.coordinate_point = None
         if self.parent.ui.radioAnypointM1.isChecked():

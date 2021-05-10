@@ -7,8 +7,8 @@ from .contoller.utils import read_image, select_file
 from .contoller.videocontroller import VideoController
 from .contoller.showResult import ShowImageResult
 from .contoller.control_window import ViewWindow
-from .show.anypoint import AnyPoint
-from .show.panorama import Panorama
+from .view_image.anypoint import AnyPoint
+from .view_image.panorama import Panorama
 
 
 class Controller(QtWidgets.QMainWindow):
@@ -43,9 +43,6 @@ class Controller(QtWidgets.QMainWindow):
         self.width_img = 1400
         self.connect_button()
 
-        # self.imageWidth = self.moildev.get_imageWidth()
-        # self.imageHeight = self.moildev.get_imageHeight()
-
         self.showing = ShowImageResult(self)
         self.view = ViewWindow(self)
         self.videoControl = VideoController(self)
@@ -71,8 +68,9 @@ class Controller(QtWidgets.QMainWindow):
         self.ui.windowOri.wheelEvent = self.mouse_wheelEvent
         self.ui.windowOri.mouseReleaseEvent = self.mouse_release_event
         self.ui.PlussIcon.mouseReleaseEvent = self.mouse_release_event
-        self.ui.PlussIcon.mouseDoubleClickEvent = self.mouseDoubleclic_event
+        self.ui.PlussIcon.mouseDoubleClickEvent = self.mouseDoubleclick_event
         self.ui.PlussIcon.wheelEvent = self.mouse_wheelEvent
+        self.ui.PlussIcon.mouseMoveEvent = self.mouseMovedResultImage
         self.ui.closeEvent = self.closeEvent
         self.ui.backtoHome.triggered.connect(self.back_to_home)
         self.ui.actionHelp.triggered.connect(self.help)
@@ -80,10 +78,10 @@ class Controller(QtWidgets.QMainWindow):
 
     def open_image(self):
         """
-        Load image frame from directory using file open.
+        Load image from directory using file open dialog.
 
         Returns:
-            Image object.
+            Image.
         """
         file_image = select_file(
             "Select Image",
@@ -101,17 +99,16 @@ class Controller(QtWidgets.QMainWindow):
                 self.h, self.w = self.image.shape[:2]
                 self.moildev = Moildev(file_param)
                 self.showing.view_result(self.image)
-                self.ratio_x, self.ratio_y, self.center = self.init_ori_ratio(
-                    self.image)
+                self.center = self.getCenterWindowsOri()
                 self.cam = False
                 self.anypoint.resetAlphaBeta()
 
     def open_video_file(self):
         """
-        Load video file from local directory using file open.
+        Load video file from local directory using file open dialog.
 
         Returns:
-            Video object.
+            Video.
         """
         file_video = select_file(
             "Select Video Files",
@@ -138,16 +135,17 @@ class Controller(QtWidgets.QMainWindow):
 
     def onclick_open_camera(self):
         """
-        showing the window to select the source camera.
+        Showing the window to select the source camera.
 
         Returns:
-            None
+            None.
         """
         self.dialogOpenCam.show()
 
     def cameraOpen(self):
         """
-        Open camera following the source given.
+        Open camera following the source given. the source has 2 choice which is usb camera and url camera
+        raspberry pi. we have to running the server on raspberry to use the url camera.
 
         Returns:
             Camera open.
@@ -198,8 +196,7 @@ class Controller(QtWidgets.QMainWindow):
         sec_pos %= 60
         self.sec = sec_pos
         self.videoControl.controller()
-        self.ratio_x, self.ratio_y, self.center = self.init_ori_ratio(
-            self.image)
+        self.center = self.getCenterWindowsOri()
         image = self.image.copy()
         self.showing.view_result(image)
         if self.videoControl.record:
@@ -209,12 +206,9 @@ class Controller(QtWidgets.QMainWindow):
             else:
                 self.videoControl.video_writer.write(self.image)
 
-    def init_ori_ratio(self, image):
+    def init_ori_ratio(self):
         """
         Calculate the initial ratio of the image.
-
-        Args:
-            image (): the image input to get it size.
 
         Returns:
             ratio_x : ratio width between image and ui window.
@@ -223,18 +217,30 @@ class Controller(QtWidgets.QMainWindow):
         """
         h = self.ui.windowOri.height()
         w = self.ui.windowOri.width()
-        height, width = image.shape[:2]
+        height, width = self.image.shape[:2]
         ratio_x = width / w
         ratio_y = height / h
+        return ratio_x, ratio_y
+
+    def getCenterWindowsOri(self):
+        """
+        Get the center coordinate on label windows original.
+
+        Returns:
+            center coordinate
+        """
+        h = self.ui.windowOri.height()
+        w = self.ui.windowOri.width()
+        ratio_x, ratio_y = self.init_ori_ratio()
         center = (round((w / 2) * ratio_x), round((h / 2) * ratio_y))
-        return ratio_x, ratio_y, center
+        return center
 
     def mouse_event(self, e):
         """
-        Specify coordinate from mouse left event.
+        Specify coordinate from mouse left event to generate anypoint view and recenter image.
 
         Args:
-            e ():
+            e (): Coordinate point return by pyqt core
 
         Returns:
 
@@ -243,20 +249,20 @@ class Controller(QtWidgets.QMainWindow):
             pass
         else:
             if e.button() == QtCore.Qt.LeftButton:
-                self.currPos = e.pos()
-                self.pos_x = round(e.x())
-                self.pos_y = round(e.y())
-                delta_x = round(self.pos_x * self.ratio_x - self.w * 0.5)
-                delta_y = round(- (self.pos_y * self.ratio_y - self.h * 0.5))
+                pos_x = round(e.x())
+                pos_y = round(e.y())
+                ratio_x, ratio_y = self.init_ori_ratio()
+                delta_x = round(pos_x * ratio_x - self.w * 0.5)
+                delta_y = round(- (pos_y * ratio_y - self.h * 0.5))
                 self.coordinate_point = (
                     round(
-                        self.pos_x *
-                        self.ratio_x),
+                        pos_x *
+                        ratio_x),
                     round(
-                        self.pos_y *
-                        self.ratio_y))
-                self.coorX = round(self.pos_x * self.ratio_x)
-                self.coorY = round(self.pos_y * self.ratio_y)
+                        pos_y *
+                        ratio_y))
+                self.coorX = round(pos_x * ratio_x)
+                self.coorY = round(pos_y * ratio_y)
                 if self.ui.btn_Anypoint.isChecked():
                     self.alpha, self.beta = self.moildev.get_alpha_beta(
                         delta_x, delta_y, self.anypointState)
@@ -268,7 +274,7 @@ class Controller(QtWidgets.QMainWindow):
                 else:
                     print("coming soon")
 
-    def mouseDoubleclic_event(self, e):
+    def mouseDoubleclick_event(self, e):
         """
         Reset to default by mouse event.
 
@@ -318,6 +324,33 @@ class Controller(QtWidgets.QMainWindow):
 
     def mouseMovedOriImage(self, e):
         """
+        Mouse move event to look in surrounding view in result label image.
+
+        Args:
+            e ():
+
+        Returns:
+
+        """
+        pos_x = round(e.x())
+        pos_y = round(e.y())
+        ratio_x, ratio_y = self.init_ori_ratio()
+        delta_x = round(pos_x * ratio_x - self.w * 0.5)
+        delta_y = round(- (pos_y * ratio_y - self.h * 0.5))
+        self.coordinate_point = (
+            round(
+                pos_x *
+                ratio_x),
+            round(
+                pos_y *
+                ratio_y))
+        if self.ui.btn_Anypoint.isChecked():
+            self.alpha, self.beta = self.moildev.get_alpha_beta(
+                delta_x, delta_y, self.anypointState)
+            self.anypoint.anypoint_view()
+
+    def mouseMovedResultImage(self, e):
+        """
         Mouse move event to look in surrounding view in original label image.
 
         Args:
@@ -326,35 +359,52 @@ class Controller(QtWidgets.QMainWindow):
         Returns:
 
         """
-        self.currPos = e.pos()
-        self.pos_x = round(e.x())
-        self.pos_y = round(e.y())
-        delta_x = round(self.pos_x * self.ratio_x - self.w * 0.5)
-        delta_y = round(- (self.pos_y * self.ratio_y - self.h * 0.5))
-        # print(delta_x, delta_y)
+        pos_x = round(e.x())
+        pos_y = round(e.y())
+        h = self.ui.PlussIcon.height()
+        w = self.ui.PlussIcon.width()
+        ratio_x = self.w / w
+        ratio_y = self.h / h
+        delta_x = round(pos_x * ratio_x - self.w * 0.5)
+        delta_y = round(- (pos_y * ratio_y - self.h * 0.5))
         self.coordinate_point = (
             round(
-                self.pos_x *
-                self.ratio_x),
+                pos_x *
+                ratio_x),
             round(
-                self.pos_y *
-                self.ratio_y))
-        self.coorX = round(self.pos_x * self.ratio_x)
-        self.coorY = round(self.pos_y * self.ratio_y)
+                pos_y *
+                ratio_y))
+        self.coorX = round(pos_x * ratio_x)
+        self.coorY = round(pos_y * ratio_y)
         if self.ui.btn_Anypoint.isChecked():
+            # if delta_x > 1000:
+            #     delta_x = delta_x - 300
+            # elif delta_x < 300:
+            #     delta_x = delta_x + 300
+            # else:
+            #     pass
+            #
+            # if delta_y > 800:
+            #     delta_y = delta_y - 200
+            # elif delta_y < 200:
+            #     delta_y = delta_y + 200
+            # else:
+            #     pass
+
             self.alpha, self.beta = self.moildev.get_alpha_beta(
                 delta_x, delta_y, self.anypointState)
             self.anypoint.anypoint_view()
 
     def mouse_release_event(self, e):
         """
-        Mouse release event left click to show menu.
+        Mouse release event right click to show menu. the menu can select is show maximum, show minimum,
+        save image, and show info.
 
         Args:
             e ():
 
         Returns:
-
+            None.
         """
         if e.button() == QtCore.Qt.LeftButton:
             pass
@@ -366,13 +416,13 @@ class Controller(QtWidgets.QMainWindow):
 
     def menuMouseEvent(self, e):
         """
-        showing the menu image when release left click.
+        showing the menu image when release right click.
 
         Args:
             e ():
 
         Returns:
-
+            None.
         """
         menu = QtWidgets.QMenu()
         maxi = menu.addAction("Show Maximized")
@@ -387,10 +437,11 @@ class Controller(QtWidgets.QMainWindow):
 
     def saveImage(self):
         """
-        Save image on local directory.
+        Save image on local directory. the first time you save image, it will open dialog to select the directory,
+        then the image saved will always stored on directory selected.
 
         Returns:
-
+            None.
         """
         ss = datetime.datetime.now().strftime("%m_%d_%H_%M_%S")
         name_image = "Original"
@@ -408,10 +459,11 @@ class Controller(QtWidgets.QMainWindow):
 
     def selectDir(self):
         """
-        Select directory to save object such as image and video.
+        Select directory to save image. This function create to make it not always ask the directory by open dialog,
+        after directory save not None, it will pass open dialog prompt.
 
         Returns:
-
+            None.
         """
         self.dir_save = QtWidgets.QFileDialog.getExistingDirectory(
             self, 'Select Save Folder')
@@ -423,7 +475,7 @@ class Controller(QtWidgets.QMainWindow):
         Showing prompt About us information (MOIL LAB).
 
         Returns:
-
+            None.
         """
         self.dialogOpenCam.close()
         msgbox = QtWidgets.QMessageBox()
@@ -438,7 +490,7 @@ class Controller(QtWidgets.QMainWindow):
         showing the message box to show help information obout this application.
 
         Returns:
-
+            None.
         """
         self.dialogOpenCam.close()
         msgbox = QtWidgets.QMessageBox()
@@ -457,6 +509,13 @@ class Controller(QtWidgets.QMainWindow):
         msgbox.exec()
 
     def back_to_home(self):
+        """
+        This function is for back to main windows, because we just hide the main window so it possible to show
+        the main window following the event given.
+
+        Returns:
+            None.
+        """
         self.parent.show()
         self.hide()
 
@@ -465,7 +524,7 @@ class Controller(QtWidgets.QMainWindow):
         Exit the apps with showing the QMessageBox.
 
         Returns:
-
+            None.
         """
         self.dialogOpenCam.close()
         self.close()
@@ -475,10 +534,10 @@ class Controller(QtWidgets.QMainWindow):
         Control exit application by ask yes or no question.
 
         Args:
-            event ():
+            event ():when you click the icon (x) or exit button
 
         Returns:
-
+            destroy the window.
         """
         reply = QtWidgets.QMessageBox.question(
             self,

@@ -2,13 +2,13 @@ from PyQt5 import QtCore, QtGui
 import cv2
 
 
-class SetRatioImage(object):
+class ResizeImage(object):
     def __init__(self, MainWindow):
         """
         Initial class setting ratio image To solve the ratio image problem where using the various of camera type.h
 
         Args:
-            MainWindow ():
+            MainWindow (): Is the parent class to access the user interface widget in this application.
 
         """
         self.parent = MainWindow
@@ -22,7 +22,6 @@ class SetRatioImage(object):
 
         Returns:
             Resized image.
-
         """
         h, w = image.shape[:2]
         r = 400 / float(w)
@@ -42,7 +41,7 @@ class SetRatioImage(object):
             width_image ():
 
         Returns:
-
+            None.
         """
         h, w = image.shape[:2]
         r = width_image / float(w)

@@ -1,4 +1,4 @@
-from ..contoller.utils import drawPoint
+from utils import drawPoint
 from ..contoller.showResult import ShowImageResult
 
 
@@ -8,7 +8,7 @@ class Panorama(object):
         The class to process image ang generate panorama view.
 
         Args:
-            MainWindow ():
+            MainWindow (): Is the parent class to access the user interface widget in this application.
         """
         self.parent = MainWindow
         self.show = ShowImageResult(self.parent)
@@ -26,18 +26,44 @@ class Panorama(object):
             Process button event
         """
         self.parent.ui.btn_Panorama.clicked.connect(self.panorama_view)
-        self.parent.ui.btn_setPanorama.clicked.connect(self.set_pano)
+        self.parent.ui.btn_setPanorama.clicked.connect(self.set_panorama)
         self.parent.ui.spinBox_coorX.valueChanged.connect(self.positionCoorX)
         self.parent.ui.spinBox_coorY.valueChanged.connect(self.positionCoorY)
         self.parent.ui.checkBox_ShowRecenterImage.clicked.connect(
             self.recenterImage)
 
-    def set_pano(self):
+    def control_button_on_panorama(self):
+        """
+        Control the button show or hide on panorama mode.
+
+        Returns:
+            None.
+        """
+        self.parent.ui.btn_Anypoint.setChecked(False)
+        self.parent.ui.frame_4.hide()
+        self.parent.ui.frame_4.setDisabled(True)
+        self.parent.ui.frame_5.show()
+        self.parent.ui.frame_5.setDisabled(False)
+
+    def control_button_of_panorama(self):
+        """
+        Control the button show or hide after you're not in panorama mode.
+
+        Returns:
+
+        """
+        self.parent.ui.frame_4.setDisabled(True)
+        self.parent.ui.frame_5.setDisabled(True)
+        self.parent.ui.frame_4.hide()
+        self.parent.ui.frame_5.hide()
+        self.parent.ui.checkBox_ShowRecenterImage.setChecked(False)
+
+    def set_panorama(self):
         """
         This function for setting the maximum and minimum of panorama view.
 
         Returns:
-
+            None.
         """
         self.max = float(self.parent.ui.lineEdit_Max.text())
         self.min = float(self.parent.ui.lineEdit_Min.text())
@@ -48,35 +74,24 @@ class Panorama(object):
         This function to process image to panorama view.
 
         Returns:
-
+            Panorama image.
         """
-        if self.parent.image is None:
-            pass
-        else:
-            image = self.parent.image.copy()
-            if self.parent.ui.btn_Panorama.isChecked():
-                self.parent.coor = self.parent.center
-                self.parent.ui.btn_Anypoint.setChecked(False)
-                self.parent.ui.frame_4.hide()
-                self.parent.ui.frame_4.setDisabled(True)
-                self.parent.ui.frame_5.show()
-                self.parent.ui.frame_5.setDisabled(False)
-                self.parent.ui.lineEdit_Max.setText(str(self.max))
-                self.parent.ui.lineEdit_Min.setText(str(self.min))
-                self.parent.mapX, self.parent.mapY = self.parent.moildev.getPanoramaMaps(
-                    self.min, self.max)
-                self.resetCenter()
-                self.show.view_result(self.parent.image)
+        image = self.parent.image.copy()
+        if self.parent.ui.btn_Panorama.isChecked():
+            self.parent.coor = self.parent.center
+            self.control_button_on_panorama()
+            self.parent.ui.lineEdit_Max.setText(str(self.max))
+            self.parent.ui.lineEdit_Min.setText(str(self.min))
+            self.parent.mapX, self.parent.mapY = self.parent.moildev.getPanoramaMaps(
+                self.min, self.max)
+            self.resetCenter()
+            self.show.view_result(self.parent.image)
 
-            else:
-                self.parent.ui.frame_4.setDisabled(True)
-                self.parent.ui.frame_5.setDisabled(True)
-                self.parent.ui.frame_4.hide()
-                self.parent.ui.frame_5.hide()
-                self.parent.ui.checkBox_ShowRecenterImage.setChecked(False)
-                self.recenterImage()
-                self.show.showOriginalImage(image)
-                self.show.view_result(image)
+        else:
+            self.control_button_of_panorama()
+            self.recenterImage()
+            self.show.showOriginalImage(image)
+            self.show.view_result(image)
 
     def recenterImage(self):
         """
