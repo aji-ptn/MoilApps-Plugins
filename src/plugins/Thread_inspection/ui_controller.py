@@ -1,6 +1,6 @@
 import cv2
 from Moildev import Moildev
-from Moildev import select_file, read_image
+from Moildev import read_image, draw_polygon
 
 from .ui_windows.Ui_MainWindow import *
 from .view_image.anypoint import AnypointView
@@ -9,12 +9,13 @@ from .controller.video_controller import VideoController
 from .controller.open_camera import OpenCameraController
 from .controller.help import open_help_moildev
 from .controller.show_result import ShowImage
+from .controller.axis_controller import AxisController
+from .controller.addition import select_file
 
 
 class Controller(QtWidgets.QMainWindow):
     """This is class that control the main window of user interface
     """
-
     def __init__(self, main_application):
         """Constructor method:
         - create instance from user interface class
@@ -28,13 +29,12 @@ class Controller(QtWidgets.QMainWindow):
         self.cap = None
         self.cam = False
         self.normal_mode = True
-        # self.anypoint_mode = False
-        # self.panorama_mode = False
+        self.axis_controller = False
+        self.mapX = None
+        self.mapY = None
+
+        self.width_scroll = self.ui.scrollArea.width()
         self.result_image = None
-        self.alpha = 0
-        self.beta = 0
-        self.zoom_any = 4
-        self.anypoint_mode = 1
         self.width_original_image = 300
         self.width_result_image = 1200
         self.angle = 0
@@ -47,11 +47,13 @@ class Controller(QtWidgets.QMainWindow):
         self.video_controller = VideoController(self)
         self.anypoint = AnypointView(self)
         self.panorama = PanoramaView(self)
+        self.axis_control = AxisController(self)
 
         self.video_controller.set_button_disable()
         self.ui.frame_panorama.hide()
         self.ui.frame_anypoint.hide()
-        self.ui.frame_navigator.hide()
+        # self.ui.frame_navigator.hide()
+        self.ui.frame_axis.hide()
 
     def connect_event(self):
         """Connect every event on user interface like button event, mouse event
@@ -65,12 +67,20 @@ class Controller(QtWidgets.QMainWindow):
         self.ui.actionExit.triggered.connect(self.onclick_exit)
         self.ui.btn_show_help.clicked.connect(self.help)
         self.ui.label_Result_Image.wheelEvent = self.mouse_wheelEvent
+
         self.ui.pushButton_29.clicked.connect(open_help_moildev)
         self.ui.btn_Rotate_Left.clicked.connect(self.rotate_left)
         self.ui.btn_Rotate_Right.clicked.connect(self.rotate_right)
         self.ui.btn_Zoom_in.clicked.connect(self.zoom_in)
         self.ui.btn_Zoom_out.clicked.connect(self.zoom_out)
         self.ui.btn_normal.clicked.connect(self.show_normal)
+        # self.resize.connect(self.place_widget)
+
+    def place_widget(self):
+        if self.image is not None:
+            print(self.ui.scrollArea.width())
+            a = self.ui.scrollArea.width()
+            self.ui.frame_navigator.setGeometry(QtCore.QRect(a, 10, 160, 200))
 
     def onclick_open_image(self):
         """Open Dialog to search the file image on local directory.
@@ -143,9 +153,7 @@ class Controller(QtWidgets.QMainWindow):
     def mouse_wheelEvent(self, e):
         """Resize image using mouse wheel event.
         """
-        if self.image is None:
-            pass
-        else:
+        if self.image is not None:
             modifiers = QtWidgets.QApplication.keyboardModifiers()
             if modifiers == QtCore.Qt.ControlModifier:
                 wheel_counter = e.angleDelta()
@@ -163,40 +171,53 @@ class Controller(QtWidgets.QMainWindow):
                 self.show_to_window()
 
     def zoom_in(self):
-        if self.width_result_image == 4000:
-            pass
-        else:
-            self.width_result_image += 100
-        self.show_to_window()
+        if self.image is not None:
+            if self.width_result_image == 4000:
+                pass
+            else:
+                self.width_result_image += 100
+            self.show_to_window()
 
     def zoom_out(self):
-        if self.width_result_image == 1000:
-            pass
-        else:
-            self.width_result_image -= 100
-        self.show_to_window()
+        if self.image is not None:
+            if self.width_result_image == 1000:
+                pass
+            else:
+                self.width_result_image -= 100
+            self.show_to_window()
 
     def rotate_left(self):
-        if self.angle == 180:
-            pass
-        else:
-            self.angle += 10
-        self.show_to_window()
+        if self.image is not None:
+            if self.angle == 180:
+                pass
+            else:
+                self.angle += 10
+            self.show_to_window()
 
     def rotate_right(self):
-        if self.angle == 180:
-            pass
-        else:
-            self.angle -= 10
-        self.show_to_window()
+        if self.image is not None:
+            if self.angle == 180:
+                pass
+            else:
+                self.angle -= 10
+            self.show_to_window()
 
     def show_normal(self):
-        self.show_image.show_result_image(
-            self.image, self.width_result_image, self.angle)
-        self.normal_mode = True
-        self.ui.frame_anypoint.hide()
-        self.ui.frame_navigator.hide()
-        self.ui.frame_panorama.hide()
+        """
+        Function for show the original image frame in window.
+
+        Returns:
+
+        """
+        if self.image is not None:
+            self.show_image.show_original_image(
+                self.image, self.width_original_image)
+            self.show_image.show_result_image(
+                self.image, self.width_result_image, self.angle)
+            self.normal_mode = True
+            self.ui.frame_anypoint.hide()
+            self.ui.frame_navigator.hide()
+            self.ui.frame_panorama.hide()
 
     def show_to_window(self):
         """
@@ -204,13 +225,21 @@ class Controller(QtWidgets.QMainWindow):
         Returns:
 
         """
-        self.show_image.show_original_image(
-            self.image, self.width_original_image)
         if self.normal_mode:
+            self.show_image.show_original_image(
+                self.image, self.width_original_image)
             self.show_image.show_result_image(
                 self.image, self.width_result_image, self.angle)
 
         else:
+            image = draw_polygon(self.image.copy(), self.mapX, self.mapY)
+            self.show_image.show_original_image(
+                image, self.width_original_image)
+            self.result_image = cv2.remap(
+                self.image,
+                self.mapX,
+                self.mapY,
+                cv2.INTER_CUBIC)
             self.show_image.show_result_image(
                 self.result_image, self.width_result_image, self.angle)
 

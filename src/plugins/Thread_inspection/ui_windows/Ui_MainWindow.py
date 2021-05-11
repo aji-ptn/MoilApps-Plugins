@@ -607,7 +607,7 @@ class Ui_MainWindow(object):
         self.btn_ctrl_axis.setObjectName("btn_ctrl_axis")
         self.horizontalLayout_3.addWidget(self.frame_ctrl_axis)
 
-        
+
         self.label_Application = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("DejaVu Serif")
@@ -698,7 +698,7 @@ class Ui_MainWindow(object):
         self.label_Result_Image.setObjectName("label_Result_Image")
 
         self.frame_navigator = QtWidgets.QFrame(self.scrollArea)
-        self.frame_navigator.setGeometry(QtCore.QRect(1230, 10, 160, 200))
+        # self.frame_navigator.setGeometry(QtCore.QRect(1230, 10, 160, 200))
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Fixed,
             QtWidgets.QSizePolicy.Fixed)

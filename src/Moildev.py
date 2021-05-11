@@ -1,30 +1,8 @@
 import math
 import json
-import datetime
-import os
 import cv2
 import numpy as np
-from PyQt5 import QtWidgets
 from MoilCV import MoilCV
-
-
-def select_file(title, dir_path, file_filter):
-    """
-    Find the file path from the directory computer.
-
-    Args:
-        title: the title window of open dialog
-        file_filter: determine the specific file want to search
-        dir_path: Navigate to specific directory
-
-    return:
-        file_path:
-    """
-    options = QtWidgets.QFileDialog.DontUseNativeDialog
-    file_path, _ = QtWidgets.QFileDialog.getOpenFileName(None, title, dir_path,
-                                                         file_filter,
-                                                         options=options)
-    return file_path
 
 
 def draw_polygon(image, mapX, mapY):
@@ -107,43 +85,6 @@ def draw_polygon(image, mapX, mapY):
     cv2.polylines(image, np.int32([points3]), False, (0, 255, 0), 10)
     cv2.polylines(image, np.int32([points4]), False, (0, 255, 0), 10)
     return image
-
-
-def draw_point(image, heightImage, coordinatePoint):
-    """
-    Drawing the dot on the image from the coordinate given
-
-    Args:
-        image : Image
-        heightImage : to determine the point size in the image
-        coordinatePoint : determine the location of the point in the image
-
-    return:
-        image:
-    """
-    if heightImage >= 1000:
-        cv2.circle(image, coordinatePoint, 10, (0, 255, 0), 20, -1)
-    else:
-        cv2.circle(image, coordinatePoint, 6, (0, 255, 0), 12, -1)
-    return image
-
-
-def save_image(filename, image):
-    """
-    Saving images and give a name to store in local directory
-
-    Args:
-        filename : give the image a filename
-        image : the captured image
-
-    return:
-        None
-    """
-    save_time = datetime.datetime.now().strftime("%H_%M_%S")
-    name = "../result/Images/" + filename + "_" + str(save_time) + ".png"
-    os.makedirs(os.path.dirname(name), exist_ok=True)
-    cv2.imwrite(name, image)
-    QtWidgets.QMessageBox.information(None, "Information", "Image saved !!")
 
 
 def read_image(image_path):
@@ -501,18 +442,26 @@ class Moildev(object):
         """
         return self.__alphaToRho_Table[round(alpha * 10)]
 
-    def get_alpha_beta(self, delta_x, delta_y, mode=1):
+    def get_alpha_beta(self, coordinateX, coordinateY, mode=1):
         """Get the alpha beta from specific coordinate image.
 
-        :param mode: the anypoint mode.
-        :type mode: int
-        :param delta_x: the coordinate point in quadrant one (1) X axis.
-        :type delta_x: int
-        :param delta_y: the coordinate point in quadrant one (1) Y axis.
-        :type delta_y: int
-        :return: alpha, beta
-        :rtype: float
+        Args:
+            :param mode: the anypoint mode.
+            :type mode: int
+            :param coordinateX: the coordinate point X axis.
+            :type coordinateX: int
+            :param coordinateY: the coordinate point Y axis.
+            :type coordinateY: int
+
+        Return:
+            :return: alpha, beta
+            :rtype: float
+
+        Examples:
+            please reference: https://github.com/MoilOrg/moildev
         """
+        delta_x = round(coordinateX - self.__imageWidth * 0.5)
+        delta_y = round(- (coordinateY - self.__imageHeight * 0.5))
         if mode == 1:
             r = round(math.sqrt(math.pow(delta_x, 2) + math.pow(delta_y, 2)))
             alpha = self.getAlphaFromRho(r)

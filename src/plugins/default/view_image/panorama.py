@@ -1,4 +1,4 @@
-from Moildev import draw_point
+from ..contoller.addition import draw_point
 from ..contoller.showResult import ShowImageResult
 
 

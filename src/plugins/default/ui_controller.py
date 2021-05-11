@@ -1,12 +1,14 @@
 import datetime
 import cv2
 from Moildev import Moildev
-from Moildev import read_image, select_file
+from Moildev import read_image
+
 from .ui_windows.Ui_Mainwindow import *
 from .contoller.select_cam import OpenCameras
 from .contoller.videocontroller import VideoController
 from .contoller.showResult import ShowImageResult
 from .contoller.control_window import ViewWindow
+from .contoller.addition import select_file
 from .view_image.anypoint import AnyPoint
 from .view_image.panorama import Panorama
 
@@ -252,24 +254,15 @@ class Controller(QtWidgets.QMainWindow):
                 pos_x = round(e.x())
                 pos_y = round(e.y())
                 ratio_x, ratio_y = self.init_ori_ratio()
-                delta_x = round(pos_x * ratio_x - self.w * 0.5)
-                delta_y = round(- (pos_y * ratio_y - self.h * 0.5))
-                self.coordinate_point = (
-                    round(
-                        pos_x *
-                        ratio_x),
-                    round(
-                        pos_y *
-                        ratio_y))
                 self.coorX = round(pos_x * ratio_x)
                 self.coorY = round(pos_y * ratio_y)
                 if self.ui.btn_Anypoint.isChecked():
                     self.alpha, self.beta = self.moildev.get_alpha_beta(
-                        delta_x, delta_y, self.anypointState)
+                        self.coorX, self.coorY, self.anypointState)
                     self.anypoint.anypoint_view()
                 elif self.ui.checkBox_ShowRecenterImage.isChecked():
                     self.alpha, self.beta = self.moildev.get_alpha_beta(
-                        delta_x, delta_y, 1)
+                        self.coorX, self.coorY, 1)
                     self.panorama.recenterImage()
                 else:
                     print("coming soon")
@@ -335,18 +328,12 @@ class Controller(QtWidgets.QMainWindow):
         pos_x = round(e.x())
         pos_y = round(e.y())
         ratio_x, ratio_y = self.init_ori_ratio()
-        delta_x = round(pos_x * ratio_x - self.w * 0.5)
-        delta_y = round(- (pos_y * ratio_y - self.h * 0.5))
-        self.coordinate_point = (
-            round(
-                pos_x *
-                ratio_x),
-            round(
-                pos_y *
-                ratio_y))
+        self.coorX = round(pos_x * ratio_x)
+        self.coorY = round(pos_y * ratio_y)
+        self.coordinate_point = (self.coorX, self.coorY)
         if self.ui.btn_Anypoint.isChecked():
             self.alpha, self.beta = self.moildev.get_alpha_beta(
-                delta_x, delta_y, self.anypointState)
+                self.coorX, self.coorY, self.anypointState)
             self.anypoint.anypoint_view()
 
     def mouseMovedResultImage(self, e):
@@ -365,8 +352,8 @@ class Controller(QtWidgets.QMainWindow):
         w = self.ui.PlussIcon.width()
         ratio_x = self.w / w
         ratio_y = self.h / h
-        delta_x = round(pos_x * ratio_x - self.w * 0.5)
-        delta_y = round(- (pos_y * ratio_y - self.h * 0.5))
+        delta_x = round(pos_x * ratio_x)
+        delta_y = round(pos_y * ratio_y)
         self.coordinate_point = (
             round(
                 pos_x *
@@ -377,20 +364,6 @@ class Controller(QtWidgets.QMainWindow):
         self.coorX = round(pos_x * ratio_x)
         self.coorY = round(pos_y * ratio_y)
         if self.ui.btn_Anypoint.isChecked():
-            # if delta_x > 1000:
-            #     delta_x = delta_x - 300
-            # elif delta_x < 300:
-            #     delta_x = delta_x + 300
-            # else:
-            #     pass
-            #
-            # if delta_y > 800:
-            #     delta_y = delta_y - 200
-            # elif delta_y < 200:
-            #     delta_y = delta_y + 200
-            # else:
-            #     pass
-
             self.alpha, self.beta = self.moildev.get_alpha_beta(
                 delta_x, delta_y, self.anypointState)
             self.anypoint.anypoint_view()

@@ -1,5 +1,6 @@
-from Moildev import draw_point, draw_polygon
+from Moildev import draw_polygon
 from ..contoller.showResult import ShowImageResult
+from ..contoller.addition import draw_point
 
 
 class AnyPoint(object):

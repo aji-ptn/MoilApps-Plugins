@@ -2,10 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="90b0fd34-6a50-43b1-9b93-3839e8424a18" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/controller/axis_controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/10052021.ui" beforeDir="false" afterPath="$PROJECT_DIR$/src/10052021.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Moildev.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Moildev.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/aD_10052021.ui" beforeDir="false" afterPath="$PROJECT_DIR$/src/aD_10052021.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/Thread_inspection/ui_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/ui_controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plugins/Thread_inspection/ui_windows/Ui_MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/ui_windows/Ui_MainWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/Thread_inspection/view_image/anypoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/view_image/anypoint.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/Thread_inspection/view_image/panorama.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/Thread_inspection/view_image/panorama.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/default/ui_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/default/ui_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/default/view_image/anypoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/default/view_image/anypoint.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugins/default/view_image/panorama.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/default/view_image/panorama.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +40,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Thread_inspection/thread_env/lib/python3.8/site-packages/autopep8.py" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration name="main_apps" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
