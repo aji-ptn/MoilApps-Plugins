@@ -18,7 +18,7 @@
 
 2. **How to use this apps**
 
-   Before you install the Moildeb app, you have to install Qt5 for the platform plugin, follow the steps for this installer
+   Before you install the Moildev app, you have to install Qt5 for the platform plugin, follow the steps for this installer
       ```
       $ sudo apt-get install build-essential
       $ sudo apt-get install qtcreator
