@@ -27,7 +27,7 @@
    make sure you has install python3 then follow the step bellow.
    - clone this repository
       ```
-      $ git clone git clone https://github.com/MoilOrg/MoilApps-Plugins.git
+      $ git clone https://github.com/MoilOrg/MoilApps-Plugins.git
       ```
    - change directory to the repository folder
 
