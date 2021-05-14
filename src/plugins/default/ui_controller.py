@@ -254,18 +254,20 @@ class Controller(QtWidgets.QMainWindow):
                 pos_x = round(e.x())
                 pos_y = round(e.y())
                 ratio_x, ratio_y = self.init_ori_ratio()
-                self.coorX = round(pos_x * ratio_x)
-                self.coorY = round(pos_y * ratio_y)
+                coordinate_X = round(pos_x * ratio_x)
+                coordinate_Y = round(pos_y * ratio_y)
+                self.coordinate_point = (coordinate_X, coordinate_Y)
                 if self.ui.btn_Anypoint.isChecked():
                     self.alpha, self.beta = self.moildev.get_alpha_beta(
-                        self.coorX, self.coorY, self.anypointState)
+                        coordinate_X, coordinate_Y, self.anypointState)
                     self.anypoint.anypoint_view()
                 elif self.ui.checkBox_ShowRecenterImage.isChecked():
                     self.alpha, self.beta = self.moildev.get_alpha_beta(
-                        self.coorX, self.coorY, 1)
+                        coordinate_X, coordinate_Y, 1)
                     self.panorama.recenterImage()
                 else:
-                    print("coming soon")
+                    pass
+                    # print("coming soon")
 
     def mouseDoubleclick_event(self, e):
         """
@@ -328,12 +330,12 @@ class Controller(QtWidgets.QMainWindow):
         pos_x = round(e.x())
         pos_y = round(e.y())
         ratio_x, ratio_y = self.init_ori_ratio()
-        self.coorX = round(pos_x * ratio_x)
-        self.coorY = round(pos_y * ratio_y)
-        self.coordinate_point = (self.coorX, self.coorY)
+        coordinate_X = round(pos_x * ratio_x)
+        coordinate_Y = round(pos_y * ratio_y)
+        self.coordinate_point = (coordinate_X, coordinate_Y)
         if self.ui.btn_Anypoint.isChecked():
             self.alpha, self.beta = self.moildev.get_alpha_beta(
-                self.coorX, self.coorY, self.anypointState)
+                coordinate_X, coordinate_Y, self.anypointState)
             self.anypoint.anypoint_view()
 
     def mouseMovedResultImage(self, e):
@@ -352,20 +354,12 @@ class Controller(QtWidgets.QMainWindow):
         w = self.ui.PlussIcon.width()
         ratio_x = self.w / w
         ratio_y = self.h / h
-        delta_x = round(pos_x * ratio_x)
-        delta_y = round(pos_y * ratio_y)
-        self.coordinate_point = (
-            round(
-                pos_x *
-                ratio_x),
-            round(
-                pos_y *
-                ratio_y))
-        self.coorX = round(pos_x * ratio_x)
-        self.coorY = round(pos_y * ratio_y)
+        coordinate_X = round(pos_x * ratio_x)
+        coordinate_Y = round(pos_y * ratio_y)
+        self.coordinate_point = (coordinate_X, coordinate_Y)
         if self.ui.btn_Anypoint.isChecked():
             self.alpha, self.beta = self.moildev.get_alpha_beta(
-                delta_x, delta_y, self.anypointState)
+                coordinate_X, coordinate_Y, self.anypointState)
             self.anypoint.anypoint_view()
 
     def mouse_release_event(self, e):

@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from Moildev import Moildev
 from Moildev import read_image, draw_polygon
 
@@ -16,6 +17,8 @@ from .controller.addition import select_file
 class Controller(QtWidgets.QMainWindow):
     """This is class that control the main window of user interface
     """
+    resized = QtCore.pyqtSignal()
+
     def __init__(self, main_application):
         """Constructor method:
         - create instance from user interface class
@@ -29,14 +32,18 @@ class Controller(QtWidgets.QMainWindow):
         self.cap = None
         self.cam = False
         self.normal_mode = True
+        self.panorama_mode = False
         self.axis_controller = False
         self.mapX = None
         self.mapY = None
+        self.mapX_pano = None
+        self.mapY_pano = None
+        self.moildev = None
 
-        self.width_scroll = self.ui.scrollArea.width()
+        self.resized.connect(self.set_place_frame_parameter)
         self.result_image = None
         self.width_original_image = 300
-        self.width_result_image = 1200
+        self.width_result_image = 1400
         self.angle = 0
         self.connect_event()
 
@@ -51,9 +58,21 @@ class Controller(QtWidgets.QMainWindow):
 
         self.video_controller.set_button_disable()
         self.ui.frame_panorama.hide()
-        self.ui.frame_anypoint.hide()
-        # self.ui.frame_navigator.hide()
+        self.ui.frame_navigator.hide()
         self.ui.frame_axis.hide()
+
+    def set_place_frame_parameter(self):
+        """
+        To set the place of parameter anypoint or panorama following the size of label.
+
+        Returns:
+
+        """
+        pos_x = self.ui.scrollArea.width()
+        self.ui.frame_navigator.setGeometry(
+            QtCore.QRect(pos_x - 180, 10, 160, 290))
+        self.ui.frame_panorama.setGeometry(
+            QtCore.QRect(pos_x - 220, 10, 210, 80))
 
     def connect_event(self):
         """Connect every event on user interface like button event, mouse event
@@ -74,13 +93,6 @@ class Controller(QtWidgets.QMainWindow):
         self.ui.btn_Zoom_in.clicked.connect(self.zoom_in)
         self.ui.btn_Zoom_out.clicked.connect(self.zoom_out)
         self.ui.btn_normal.clicked.connect(self.show_normal)
-        # self.resize.connect(self.place_widget)
-
-    def place_widget(self):
-        if self.image is not None:
-            print(self.ui.scrollArea.width())
-            a = self.ui.scrollArea.width()
-            self.ui.frame_navigator.setGeometry(QtCore.QRect(a, 10, 160, 200))
 
     def onclick_open_image(self):
         """Open Dialog to search the file image on local directory.
@@ -95,6 +107,7 @@ class Controller(QtWidgets.QMainWindow):
             if param_name:
                 self.moildev = Moildev(param_name)
                 self.image = read_image(filename)
+                self.h, self.w = self.image.shape[:2]
                 self.show_to_window()
 
     def onclick_load_video(self):
@@ -105,7 +118,11 @@ class Controller(QtWidgets.QMainWindow):
             "../",
             "Video Files (*.mp4 *.avi *.mpg *.gif *.mov)")
         if video_source:
-            self.running_video(video_source)
+            param_name = select_file(
+                "Select Parameter", "../", "Parameter Files (*.json)")
+            if param_name:
+                self.moildev = Moildev(param_name)
+                self.running_video(video_source)
 
     def onclick_open_camera_button(self):
         """Show the window of selection camera source.
@@ -117,8 +134,13 @@ class Controller(QtWidgets.QMainWindow):
         this function provide 2 source namely USB cam and Streaming Cam from Raspberry pi.
         """
         camera_source = self.winOpenCam.camera_source_used()
-        self.running_video(camera_source)
-        self.cam = True
+        if camera_source:
+            param_name = select_file(
+                "Select Parameter", "../", "Parameter Files (*.json)")
+            if param_name:
+                self.moildev = Moildev(param_name)
+                self.running_video(camera_source)
+                self.cam = True
 
     def running_video(self, video_source):
         """Open Video following the source given.
@@ -215,7 +237,6 @@ class Controller(QtWidgets.QMainWindow):
             self.show_image.show_result_image(
                 self.image, self.width_result_image, self.angle)
             self.normal_mode = True
-            self.ui.frame_anypoint.hide()
             self.ui.frame_navigator.hide()
             self.ui.frame_panorama.hide()
 
@@ -232,14 +253,34 @@ class Controller(QtWidgets.QMainWindow):
                 self.image, self.width_result_image, self.angle)
 
         else:
-            image = draw_polygon(self.image.copy(), self.mapX, self.mapY)
+            if self.panorama_mode:
+                image = draw_polygon(
+                    self.image.copy(),
+                    self.mapX_pano,
+                    self.mapY_pano)
+                mapX = np.load(
+                    './plugins/Thread_inspection/view_image/maps_pano/mapX.npy')
+                mapY = np.load(
+                    './plugins/Thread_inspection/view_image/maps_pano/mapY.npy')
+                rho = self.panorama.rho
+
+                self.result_image = cv2.remap(
+                    self.image,
+                    mapX,
+                    mapY,
+                    cv2.INTER_CUBIC)
+                self.result_image = self.result_image[round(
+                    rho + round(self.moildev.getRhoFromAlpha(30))):self.h, 0:self.w]
+                # print(self.width_result_image)
+            else:
+                image = draw_polygon(self.image.copy(), self.mapX, self.mapY)
+                self.result_image = cv2.remap(
+                    self.image,
+                    self.mapX,
+                    self.mapY,
+                    cv2.INTER_CUBIC)
             self.show_image.show_original_image(
                 image, self.width_original_image)
-            self.result_image = cv2.remap(
-                self.image,
-                self.mapX,
-                self.mapY,
-                cv2.INTER_CUBIC)
             self.show_image.show_result_image(
                 self.result_image, self.width_result_image, self.angle)
 
@@ -274,6 +315,9 @@ class Controller(QtWidgets.QMainWindow):
     def onclick_exit(self):
         self.close()
         self.openCam.close()
+
+    def resizeEvent(self, event):
+        self.resized.emit()
 
     def closeEvent(self, event):
         """Control exit application by ask yes or no question.

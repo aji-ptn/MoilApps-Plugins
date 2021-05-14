@@ -12,6 +12,15 @@ def calculate_ratio_image(image, image_width):
     return height
 
 
+def calculate_ratio(image, image_height):
+    """Calculate the size ratio
+    """
+    h, w = image.shape[:2]
+    r = image_height / float(h)
+    width = round(w * r)
+    return width
+
+
 class ShowImage(object):
     def __init__(self, MainWindow):
         self.parent = MainWindow
@@ -34,4 +43,3 @@ class ShowImage(object):
         image = QtGui.QImage(image.data, image.shape[1], image.shape[0],
                              QtGui.QImage.Format_RGB888).rgbSwapped()
         label_image.setPixmap(QtGui.QPixmap.fromImage(image))
-

@@ -1,4 +1,4 @@
-import cv2
+from PyQt5 import QtWidgets
 
 
 class AnypointView(object):
@@ -27,6 +27,10 @@ class AnypointView(object):
         self.parent.ui.btn_Down_view.clicked.connect(self.down)
         self.parent.ui.radio_btn_mode_1.clicked.connect(self.anypoint_mode_1)
         self.parent.ui.radio_btn_mode_2.clicked.connect(self.anypoint_mode_2)
+        self.parent.ui.pushButton_2.clicked.connect(self.help_anypoint)
+        self.parent.ui.oke_alpha_2.clicked.connect(self.set_param_any)
+        # self.parent.ui.oke_beta_2.clicked.connect(self.set_param_any)
+        self.parent.ui.anypoint_zoom_2.valueChanged.connect(self.set_param_any)
 
     def process_to_anypoint(self):
         """
@@ -37,12 +41,15 @@ class AnypointView(object):
         """
         if self.parent.image is not None:
             self.parent.normal_mode = False
-            self.parent.ui.frame_anypoint.show()
+            self.parent.panorama_mode = False
             self.parent.ui.frame_navigator.show()
             self.parent.ui.frame_panorama.hide()
             self.parent.mapX, self.parent.mapY, = self.parent.moildev.getAnypointMaps(
                 self.alpha, self.beta, self.zoom_any, self.anypoint_mode)
             self.parent.show_to_window()
+            self.parent.ui.lineedit_alpha_2.setText("%.2f" % self.alpha)
+            self.parent.ui.lineedit_beta_2.setText("%.2f" % self.beta)
+            self.parent.ui.anypoint_zoom_2.setValue(self.zoom_any)
 
     def anypoint_mode_1(self):
         """
@@ -77,6 +84,16 @@ class AnypointView(object):
         self.beta = 0
         self.zoom_any = 4
 
+    def help_anypoint(self):
+        QtWidgets.QMessageBox.about(
+            self.parent, "Help", "Please Contact MOIL LAB")
+
+    def set_param_any(self):
+        self.alpha = float(self.parent.ui.lineedit_alpha_2.text())
+        self.beta = float(self.parent.ui.lineedit_beta_2.text())
+        self.zoom_any = float(self.parent.ui.anypoint_zoom_2.text())
+        self.process_to_anypoint()
+
     def mouseDoubleclick_event(self, e):
         """
         Reset to default by mouse event.
@@ -87,7 +104,6 @@ class AnypointView(object):
         Returns:
 
         """
-        print("tetetete")
         self.resetAlphaBeta()
         self.process_to_anypoint()
 
