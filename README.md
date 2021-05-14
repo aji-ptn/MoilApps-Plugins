@@ -1,8 +1,8 @@
 ## Moildev Application using Plugins
 
-*Date: 14/04/2020*
+*Date: 13/05/2021*
 
-*Writer: Haryanto*
+*Modification by: Cj-Heru05*
 
 
 
@@ -18,31 +18,50 @@
 
 2. **How to use this apps**
 
+   Before you install the Moildev app, you have to install Qt5 for the platform plugin, follow the steps for this installer
+      ```
+      $ sudo apt-get install build-essential
+      $ sudo apt-get install qtcreator
+      $ sudo apt-get install qt5-default
+      ```
    make sure you has install python3 then follow the step bellow.
-
    - clone this repository
-
+      ```
+      $ git clone https://github.com/MoilOrg/MoilApps-Plugins.git
+      ```
    - change directory to the repository folder
 
      ```
      $ cd MoilApps-Plugins
      ```
-
-   - install the requirements
-
-     ```
-     $ pip install -r requirement.txt
-     ```
-
-   - run the main_apps.py in folder "src"
-
-     ```
-     $ python src/main_apps.py
-     ```
-
      
+   - To run this program, we recommend that you create an environment by following the steps below:
+     ```
+     $ sudo apt install virtualenv
+     $ virtualenv env
+     $ source env/bin/activate
+     ```
 
-   The result will show like picture bellow this.
+   - install the requirements below in the environment you created earlier
+
+     ```
+     $ pip install Moildev==2.1.0
+     $ pip install Pillow==8.0.1
+     $ pip install PyQt5==5.15.0
+     ```
+     
+   - change directory to the repository folder
+
+     ```
+     $ cd src
+     ```
+     
+   - run the main_apps.py in folder "src"
+     ```
+     $ python main_apps.py
+     ```
+
+After you run this program, a display will appear as shown below.
 
    ![](./assets/louncher.png)
 
